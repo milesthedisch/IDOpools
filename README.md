@@ -1,6 +1,6 @@
 # IDO pools Web3 Hackathon
 
-## Adding ape rocket fuel to your IDO tokens
+Adding ape rocket fuel to your IDO tokens
 
 # Quick Start
 
