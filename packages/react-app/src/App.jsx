@@ -145,6 +145,8 @@ function App(props) {
 
   const contractConfig = { deployedContracts: deployedContracts || {}, externalContracts: externalContracts || {} };
 
+  console.log("contract config", contractConfig);
+
   // Load in your local 📝 contract and read a value from it:
   const readContracts = useContractLoader(localProvider, contractConfig);
 
@@ -256,7 +258,7 @@ function App(props) {
         USE_NETWORK_SELECTOR={USE_NETWORK_SELECTOR}
       />
       <Menu style={{ textAlign: "center", marginTop: 40 }} selectedKeys={[location.pathname]} mode="horizontal">
-      <Menu.Item key="/exampleui">
+        <Menu.Item key="/exampleui">
           <Link to="/exampleui">User Interface</Link>
         </Menu.Item>
         <Menu.Item key="/debug">
@@ -277,7 +279,17 @@ function App(props) {
             */}
 
           <Contract
-            name="VaultContract"
+            name="DAI"
+            price={price}
+            signer={userSigner}
+            provider={localProvider}
+            address={address}
+            blockExplorer={blockExplorer}
+            contractConfig={contractConfig}
+          />
+
+          <Contract
+            name="BasicLoan"
             price={price}
             signer={userSigner}
             provider={localProvider}

@@ -59,13 +59,29 @@ export default function Contract({
   chainId,
   contractConfig,
 }) {
+  console.log("hello", [
+    customContract,
+    account,
+    gasPrice,
+    signer,
+    provider,
+    name,
+    show,
+    price,
+    blockExplorer,
+    chainId,
+    contractConfig,
+  ]);
   const contracts = useContractLoader(provider, contractConfig, chainId);
+
   let contract;
   if (!customContract) {
     contract = contracts ? contracts[name] : "";
   } else {
     contract = customContract;
   }
+
+  console.log("debug: ", contract);
 
   const address = contract ? contract.address : "";
   const contractIsDeployed = useContractExistsAtAddress(provider, address);
@@ -120,10 +136,10 @@ export default function Contract({
     <div style={{ margin: "auto", width: "70vw" }}>
       <Card
         title={
-          <div style={{fontSize:24}}>
+          <div style={{ fontSize: 24 }}>
             {name}
             <div style={{ float: "right" }}>
-              <Address value={address}/>
+              <Address value={address} />
               <Balance address={address} provider={provider} price={price} />
             </div>
           </div>

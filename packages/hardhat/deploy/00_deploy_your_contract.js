@@ -1,6 +1,6 @@
 // deploy/00_deploy_your_contract.js
 
-// const { ethers } = require("hardhat");
+const { ethers } = require("hardhat");
 
 // const localChainId = "31337";
 
@@ -17,19 +17,24 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   const { deployer } = await getNamedAccounts();
   const chainId = await getChainId();
 
+  const DAI = await deploy("DAI", {
+    from: deployer,
+    log: true,
+    args: [1000000000],
+  });
+
+  const terms = {
+    loanDaiAmount: 1000,
+    feeDaiAmount: 2,
+    ethCollateralAmount: 1000,
+    repayByTimestamp: 10000,
+  };
+
   await deploy("BasicLoan", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    // args: [ "Hello", ethers.utils.parseEther("1.5") ],
+    args: [terms, DAI.address],
     log: true,
-
-    waitConfirmations: 5,
-  });
-
-  await deploy("DAI", {
-    from: deployer,
-    log: true,
-    waitConfirmations: 5,
   });
 
   // Getting a previously deployed contract
@@ -83,4 +88,4 @@ module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
   //   console.error(error);
   // }
 };
-module.exports.tags = ["YourContract"];
+module.exports.tags = ["LoanContract"];
