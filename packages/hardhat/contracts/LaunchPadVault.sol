@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 import { MockLaunchpadToken } from "./MockLaunchpadToken.sol";
+import "hardhat/console.sol";
 
 contract LaunchPadVault {
     string public name = "LaunchPadVault";
@@ -23,13 +24,6 @@ contract LaunchPadVault {
 
     mapping(address => Staker) public stakers;
     
-    // address[] public stakers;
-
-    // mapping(address => uint) public stakingBalance;
-    // mapping(address => bool) public hasStaked;
-    // mapping(address => bool) public isStaking;
-    // mapping(address => uint) public shares;
-
     constructor(address _launchPadToken) public {
         launchPadToken = IERC20(_launchPadToken);
         owner = msg.sender;
@@ -67,19 +61,19 @@ contract LaunchPadVault {
     function unstakeTokens(uint256 _amount) public {
         require(stakers[msg.sender].hasStaked == true, "Have not staker before");
 
-        Staker memory _currentStaker = stakers[msg.sender];
+        Staker storage _currentStaker = stakers[msg.sender];
 
         // Require amount greater than 0
         require(_currentStaker.stakingBalance > 0, "staking balance cannot be 0");
 
         // Transfer MockLaunchpadToken tokens to this contract for staking
-        launchPadToken.transfer(msg.sender, _currentStaker.stakingBalance);
+        launchPadToken.transfer(msg.sender, _amount);
 
         // decrement totalBalance
         totalBalance -= _amount;
 
         // Reset staking balance
-        _currentStaker.stakingBalance -= _amount;
+        _currentStaker.stakingBalance = _currentStaker.stakingBalance - _amount;
 
         // Update staking status
         _currentStaker.isStaking = false;
