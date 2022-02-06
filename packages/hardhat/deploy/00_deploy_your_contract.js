@@ -12,28 +12,36 @@ const { ethers } = require("hardhat");
 //     }, ms)
 //   );
 
-module.exports = async ({ getNamedAccounts, deployments, getChainId }) => {
+module.exports = async ({
+  getNamedAccounts,
+  getUnnamedAccounts,
+  deployments,
+  getChainId,
+}) => {
   const { deploy } = deployments;
-  const { deployer } = await getNamedAccounts();
+  const accounts = await getUnnamedAccounts();
+  const { deployer, staker } = await getNamedAccounts();
   const chainId = await getChainId();
 
-  const DAI = await deploy("DAI", {
+  const MockLaunchpadToken = await deploy("MockLaunchpadToken", {
     from: deployer,
     log: true,
     args: [1000000000],
   });
 
-  const terms = {
-    loanDaiAmount: 1000,
-    feeDaiAmount: 2,
-    ethCollateralAmount: 1000,
-    repayByTimestamp: 10000,
-  };
+  // const signer = await ethers.provider.getSigner(deployer);
 
-  await deploy("BasicLoan", {
+  // const DAIcontract = await new ethers.Contract(DAI.address, DAI.abi, signer);
+
+  // const result = await DAIcontract.transfer(
+  //   "0x59D8Cef06E0366c2DC13264917a12B880A05b291",
+  //   10000
+  // );
+
+  await deploy("LaunchPadVault", {
     // Learn more about args here: https://www.npmjs.com/package/hardhat-deploy#deploymentsdeploy
     from: deployer,
-    args: [terms, DAI.address],
+    args: [MockLaunchpadToken.address],
     log: true,
   });
 

@@ -279,7 +279,7 @@ function App(props) {
             */}
 
           <Contract
-            name="DAI"
+            name="MockLaunchpadToken"
             price={price}
             signer={userSigner}
             provider={localProvider}
@@ -289,7 +289,7 @@ function App(props) {
           />
 
           <Contract
-            name="BasicLoan"
+            name="LaunchPadVault"
             price={price}
             signer={userSigner}
             provider={localProvider}
