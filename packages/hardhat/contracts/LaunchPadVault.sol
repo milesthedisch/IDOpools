@@ -7,18 +7,37 @@ import { MockLaunchpadToken } from "./MockLaunchpadToken.sol";
 
 contract LaunchPadVault {
     string public name = "LaunchPadVault";
+
     address public owner;
+
+    uint256 public totalBalance;
+
     IERC20 public launchPadToken;
 
-    address[] public stakers;
-    mapping(address => uint) public stakingBalance;
-    mapping(address => bool) public hasStaked;
-    mapping(address => bool) public isStaking;
+    struct Staker {
+      uint256 stakingBalance;
+      bool hasStaked;
+      bool isStaking;
+      uint256 shares;
+    }
+
+    mapping(address => Staker) public stakers;
+    
+    // address[] public stakers;
+
+    // mapping(address => uint) public stakingBalance;
+    // mapping(address => bool) public hasStaked;
+    // mapping(address => bool) public isStaking;
+    // mapping(address => uint) public shares;
 
     constructor(address _launchPadToken) public {
         launchPadToken = IERC20(_launchPadToken);
         owner = msg.sender;
     }
+
+    function calculateShareAmount(address _staker) private view returns (uint256) {
+      return stakers[_staker].stakingBalance / totalBalance;
+    } 
 
     function stakeTokens(uint _amount) public {
         // Require amount greater than 0
@@ -27,39 +46,49 @@ contract LaunchPadVault {
         // Trasnfer Mock MockLaunchpadToken tokens to this contract for staking
         launchPadToken.transferFrom(msg.sender, address(this), _amount);
 
+        Staker storage _currentStaker = stakers[msg.sender];
+
         // Update staking balance
-        stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
+        _currentStaker.stakingBalance += _amount;
+
+        // Increase totalBalance
+        totalBalance += _amount;
 
         // Add user to stakers array *only* if they haven't staked already
-        if(!hasStaked[msg.sender]) {
-            stakers.push(msg.sender);
+        if(!_currentStaker.hasStaked) {
+            _currentStaker.hasStaked = true;
         }
 
         // Update staking status
-        isStaking[msg.sender] = true;
-        hasStaked[msg.sender] = true;
+        _currentStaker.isStaking = true;
     }
 
     // Unstaking Tokens (Withdraw)
-    function unstakeTokens() public {
-        // Fetch staking balance
-        uint balance = stakingBalance[msg.sender];
+    function unstakeTokens(uint256 _amount) public {
+        require(stakers[msg.sender].hasStaked == true, "Have not staker before");
+
+        Staker memory _currentStaker = stakers[msg.sender];
 
         // Require amount greater than 0
-        require(balance > 0, "staking balance cannot be 0");
+        require(_currentStaker.stakingBalance > 0, "staking balance cannot be 0");
 
         // Transfer MockLaunchpadToken tokens to this contract for staking
-        launchPadToken.transfer(msg.sender, balance);
+        launchPadToken.transfer(msg.sender, _currentStaker.stakingBalance);
+
+        // decrement totalBalance
+        totalBalance -= _amount;
 
         // Reset staking balance
-        stakingBalance[msg.sender] = 0;
+        _currentStaker.stakingBalance -= _amount;
 
         // Update staking status
-        isStaking[msg.sender] = false;
+        _currentStaker.isStaking = false;
     }
 
-    function withdraw(uint256 _amount, address _trader) public {
-        
+    function borrow(uint256 _amount, address _multiSig) public {
+      // the multisig wallet can withdraw up to a certain amont of tokens
+      // dictated by the launchpad
     }
+
 }
 
