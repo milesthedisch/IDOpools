@@ -26,7 +26,7 @@ const { isAddress, getAddress, formatUnits, parseUnits } = utils;
 //
 // Select the network you want to deploy to here:
 //
-const defaultNetwork = "localhost";
+const defaultNetwork = "mumbai";
 
 const mainnetGwei = 21;
 
@@ -175,7 +175,9 @@ module.exports = {
     },
     mumbai: {
       url: "https://rpc-mumbai.matic.today",
-      accounts: [`${process.env.MUMBAI_DEPLOYER_PRIVATE_KEY}`],
+      accounts: {
+        mnemonic: mnemonic(),
+      },
     },
     matic: {
       url: "https://rpc-mainnet.maticvigil.com/",
