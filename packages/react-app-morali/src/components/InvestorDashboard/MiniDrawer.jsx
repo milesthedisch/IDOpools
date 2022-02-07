@@ -137,7 +137,14 @@ export default function MiniDrawer() {
           >
             INVESTOR DASHBOARD
           </Typography>
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              marginRight: "0px",
+              marginLeft: "auto",
+            }}
+          >
             <Chains />
             <Account />
           </Box>

@@ -5,7 +5,6 @@ import LaunchPadVault from "../contracts/LaunchPadVault.json"
 import { utils, constants } from "ethers"
 import { Contract } from "@ethersproject/contracts"
 
-
 export const useStakeTokens = () => {
     const {chainId} = "80001"
     const {abi} = LaunchPadVault

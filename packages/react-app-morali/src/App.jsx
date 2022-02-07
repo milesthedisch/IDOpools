@@ -53,7 +53,6 @@ const App = ({ isServerInfo }) => {
   }, [isAuthenticated, isWeb3Enabled]);
 
   return (
-    <DAppProvider>
       <Router>
         <Header />
         <Routes>
@@ -65,7 +64,6 @@ const App = ({ isServerInfo }) => {
           <Route path="/balances" element={<AddressInput />} />
         </Routes>
       </Router>
-    </DAppProvider>
   );
 };
 

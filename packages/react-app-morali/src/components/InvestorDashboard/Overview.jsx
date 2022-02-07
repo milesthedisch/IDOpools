@@ -20,15 +20,14 @@ import LogoMakerDAO from "../Icons/LogoMakerDAO";
 import { useEthers } from "@usedapp/core";
 import Wallet from "../Wallet/Wallet";
 import { constants } from "ethers";
-import {StakeForm} from "./StakeForm"
+import { StakeForm } from "./StakeForm";
+import { useMoralis } from "react-moralis";
 
 const AvailablePools = () => {
   const { chainId } = useEthers();
-
+  const { web3 } = useMoralis();
   return (
     <Paper sx={{ margin: "30px", padding: "20px" }}>
-      Test
-      <Wallet />
       <Button contained></Button>
       <Typography variant="h3">Available pools</Typography>
       <Paper>
@@ -58,13 +57,23 @@ const AvailablePools = () => {
 
 const Overview = () => {
   return (
-    <Box>
-      <StakeForm token={{address: "0x5798D8AD586d09AF26f06424cB566c1aB4778410"}}/>
+    <Box sx={{width: "100%",margin:"20px", display: "flex", flexDirection: "column", justifyContent: "center"}}>
+      <StakeForm sx={{margin:"20px",}}
+        token={{ address: "0x5798D8AD586d09AF26f06424cB566c1aB4778410" }}
+      />
+      <Box sx={{display: "flex", margin:"20px",flexDirection: "row"}}>
+      <Wallet />
+        <DEX chain="polygon" />
+        <BridgeWidget />
+      </Box>
+      <AvailablePools />
       <AvailablePools />
       <Box sx={{ display: "flex", padding: "10px" }}>
-    <ERC20Balance />
-    <DEX chain="polygon" />
-  </Box> 
+        <ERC20Balance />
+      </Box>
+      <Box sx={{ display: "flex", padding: "10px" }}>
+        <ERC20Balance />
+      </Box>
     </Box>
   );
 };
@@ -72,7 +81,7 @@ const Overview = () => {
 export default Overview;
 
 {
-  /* <WalletBalance /> */
+  // /* <WalletBalance /> */
 }
 {
   /* <StakeTokens/> */

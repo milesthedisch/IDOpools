@@ -3,7 +3,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import Dragger from "antd/lib/upload/Dragger";
 import React, { useEffect, useMemo } from "react";
-import contractInfo from "contracts/contractInfo.json";
+import contractInfo from "contracts/hardhat_contracts.json";
 
 export default function ContractResolver({ contract, setContract }) {
   useEffect(() => {
