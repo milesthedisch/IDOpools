@@ -1,0 +1,7 @@
+{
+  "80001": [
+    { "MockLaunchpadToken": "0x5798D8AD586d09AF26f06424cB566c1aB4778410" },
+    { "MockLaunchpadVault": "0xbc3c6E4117f426d24EB35d0c44916Dd152967f02" },
+    { "WalletFactory": "0x6CB33613E705825AA5e9C58b84dC9305347D203A" }
+  ]
+}
