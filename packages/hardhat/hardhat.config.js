@@ -174,11 +174,8 @@ module.exports = {
       },
     },
     mumbai: {
-      url: "https://speedy-nodes-nyc.moralis.io/XXXXXXXXXXXXXXXXXXXXXXX/polygon/mumbai", // <---- YOUR MORALIS ID! (not limited to infura)
-      gasPrice: 1000000000,
-      accounts: {
-        mnemonic: mnemonic(),
-      },
+      url: "https://rpc-mumbai.matic.today",
+      accounts: [`${process.env.MUMBAI_DEPLOYER_PRIVATE_KEY}`],
     },
     matic: {
       url: "https://rpc-mainnet.maticvigil.com/",

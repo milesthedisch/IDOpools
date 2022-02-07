@@ -96,4 +96,4 @@ module.exports = async ({
   //   console.error(error);
   // }
 };
-module.exports.tags = ["LoanContract"];
+module.exports.tags = ["LaunchPadVaultContract"];
